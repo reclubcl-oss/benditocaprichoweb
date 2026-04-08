@@ -567,23 +567,31 @@
       var fill    = document.getElementById('videoProgressFill');
       var bar     = document.getElementById('videoProgress');
 
-      // El video espera parado — no hacemos autoplay
-      // así el ÚNICO play() ocurre dentro del gesto del usuario,
-      // lo que garantiza audio en iOS y Android Chrome.
-      video.pause();
+      // Intento 1: play con audio inmediato (funciona en desktop)
+      video.muted = false;
+      video.play().catch(function () {
+        // Bloqueado — iniciar mudo (funciona en iOS y Android)
+        video.muted = true;
+        video.play().catch(function () {});
+      });
 
-      // Cualquier interacción → play con audio (toque, scroll, click)
+      // Intento 2: a los 500ms, si sigue pausado, forzar mudo
+      setTimeout(function () {
+        if (video.paused) {
+          video.muted = true;
+          video.play().catch(function () {});
+        }
+      }, 500);
+
+      // Cualquier interacción mínima → activar audio
       function unlock() {
-        video.muted = false;
-        video.play();
         overlay.classList.add('hidden');
-        document.removeEventListener('touchstart', unlock);
-        document.removeEventListener('scroll',     unlock);
-        document.removeEventListener('click',      unlock);
+        video.muted = false;
+        if (video.paused) video.play();
       }
-      document.addEventListener('touchstart', unlock, { once: true, passive: true });
-      document.addEventListener('scroll',     unlock, { once: true, passive: true });
-      document.addEventListener('click',      unlock, { once: true });
+      ['touchstart', 'click', 'scroll'].forEach(function (evt) {
+        document.addEventListener(evt, unlock, { once: true, passive: true });
+      });
 
       // Barra de progreso acelerada
       (function tick() {
