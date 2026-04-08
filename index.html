@@ -718,29 +718,50 @@
 
   <!-- ─── JavaScript ──────────────────────────────────────────── -->
   <script>
-    // ── Barra de progreso del video ──────────────────────────────
+    // ── Barra de progreso (acelerada para crear urgencia) ────────
     (function () {
-      var video    = document.getElementById('mainVideo');
-      var bar      = document.getElementById('videoProgress');
-      var fill     = document.getElementById('videoProgressFill');
+      var video = document.getElementById('mainVideo');
+      var bar   = document.getElementById('videoProgress');
+      var fill  = document.getElementById('videoProgressFill');
 
-      // Actualiza la barra cada frame
       function tick() {
         if (video.duration) {
-          var pct = (video.currentTime / video.duration) * 100;
+          var real = video.currentTime / video.duration;
+          // Curva que arranca rápido y se acerca a 95% cuando el video va por la mitad
+          var pct  = Math.min(95, real * 2.8 * 100);
+          // Al final del video, completa al 100%
+          if (real > 0.97) pct = 100;
           fill.style.width = pct + '%';
         }
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
 
-      // Click en la barra → seek
+      // Click / tap en la barra → seek
       bar.addEventListener('click', function (e) {
         if (!video.duration) return;
         var rect = bar.getBoundingClientRect();
         var pos  = (e.clientX - rect.left) / rect.width;
-        video.currentTime = pos * video.duration;
+        video.currentTime = (pos / 2.8) * video.duration;
       });
+    })();
+
+    // ── Fix Android: forzar play al primer toque ─────────────────
+    (function () {
+      var video = document.getElementById('mainVideo');
+
+      function tryPlay() {
+        video.play().catch(function () {});
+      }
+
+      // Android Chrome a veces ignora autoplay aunque sea muted
+      document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+      document.addEventListener('click',      tryPlay, { once: true });
+
+      // Fallback: si tras 1s el video sigue pausado, intentar de nuevo
+      setTimeout(function () {
+        if (video.paused) video.play().catch(function () {});
+      }, 1000);
     })();
 
     // ── Activar audio al primer toque/click en cualquier parte ──
