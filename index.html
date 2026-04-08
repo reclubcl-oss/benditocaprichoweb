@@ -27,24 +27,6 @@
       --font-body:   'DM Sans', system-ui, sans-serif;
     }
 
-    /* ─── Fondo global (imagen de referencia) ───────────────── */
-    body {
-      background-color: #7040B8;
-      background-image:
-        /* grano de película */
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.09'/%3E%3C/svg%3E"),
-        /* destello rosa esquina superior derecha */
-        radial-gradient(ellipse 55% 40% at 92% 5%,  rgba(255,160,180,0.55) 0%, transparent 60%),
-        /* destello rosa/melocotón esquina inferior derecha */
-        radial-gradient(ellipse 45% 35% at 95% 95%, rgba(255,140,160,0.45) 0%, transparent 55%),
-        /* franja oscura diagonal (el "ahumado" del centro) */
-        radial-gradient(ellipse 70% 55% at 35% 45%, rgba(45, 10, 80, 0.65) 0%, transparent 70%),
-        /* base morada */
-        linear-gradient(160deg, #8B4DC8 0%, #6B30A8 40%, #7840B5 70%, #8050C0 100%);
-      background-size: 256px 256px, auto, auto, auto, auto;
-      background-attachment: fixed;
-    }
-
     /* ─── Reset ─────────────────────────────────────────────── */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -57,8 +39,20 @@
       font-size: 16px;
     }
 
+    /* ─── Fondo global ──────────────────────────────────────── */
     body {
-      background-color: var(--bg-dark);
+      background-color: #7040B8;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.09'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse 55% 40% at 92% 5%,  rgba(255,160,180,0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 35% at 95% 95%, rgba(255,140,160,0.45) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 55% at 35% 45%, rgba(45, 10, 80, 0.65) 0%, transparent 70%),
+        linear-gradient(160deg, #8B4DC8 0%, #6B30A8 40%, #7840B5 70%, #8050C0 100%);
+      background-size: 256px 256px, auto, auto, auto, auto;
+      background-attachment: scroll; /* fixed rompe en iOS Safari */
+      background-repeat: no-repeat;
+      background-size: 256px 256px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      min-height: 100dvh;
       color: var(--text-light);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
@@ -455,11 +449,47 @@
       flex-shrink: 0;
     }
 
-    /* ─── Responsive ─────────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .footer-inner {
-        flex-direction: column;
-        text-align: center;
+    /* ─── Responsive móvil ───────────────────────────────────── */
+    @media (max-width: 600px) {
+
+      /* Título más grande y legible en pantalla pequeña */
+      .hero {
+        padding: 2rem 1.25rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.9rem, 9vw, 2.8rem);
+        text-shadow:
+          1px 1px 0 #3A0E70,
+          2px 2px 0 #2C0B59,
+          3px 3px 8px rgba(0,0,0,0.4);
+      }
+
+      /* Video sin padding lateral para aprovechar toda la pantalla */
+      .section-video {
+        padding: 1rem 0 2.5rem;
+      }
+
+      .video-wrapper {
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      /* WhatsApp: botón ancho completo, más fácil de tocar */
+      .section-whatsapp {
+        padding: 2rem 1.25rem;
+      }
+
+      .btn-whatsapp {
+        width: 100%;
+        justify-content: center;
+        font-size: 1.05rem;
+        padding: 1.1rem 1.5rem;
+      }
+
+      /* Waitlist más compacto */
+      .section-waitlist {
+        padding: 3.5rem 1.25rem;
       }
 
       .waitlist-form {
@@ -470,6 +500,31 @@
       .waitlist-form button {
         width: 100%;
         flex: none;
+        font-size: 1rem;
+        padding: 1rem 1.25rem;
+      }
+
+      /* Footer apilado */
+      .footer-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+      }
+
+      /* Overlay sonido más grande para tocar fácil */
+      .sound-pulse {
+        width: 72px;
+        height: 72px;
+      }
+
+      .sound-pulse svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      #soundOverlay span {
+        font-size: 0.85rem;
       }
     }
   </style>
