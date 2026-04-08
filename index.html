@@ -286,18 +286,19 @@
     .s4 { width: 14px; top: 70%; left:  55%; animation: sparkle-pulse 2.5s ease-in-out infinite 0.3s; }
     .s5 { width: 24px; top: 85%; left:  80%; animation: sparkle-pulse 3.0s ease-in-out infinite 1.5s; }
 
-    /* ─── Overlay "toca para sonido" ────────────────────────── */
+    /* ─── Overlay pantalla completa "toca para reproducir" ─── */
     #soundOverlay {
-      position: absolute;
+      position: fixed;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 1rem;
       cursor: pointer;
-      z-index: 10;
-      transition: opacity 0.4s ease;
+      z-index: 999;
+      background: rgba(7, 5, 15, 0.55);
+      transition: opacity 0.35s ease;
     }
 
     #soundOverlay.hidden {
@@ -567,31 +568,21 @@
       var fill    = document.getElementById('videoProgressFill');
       var bar     = document.getElementById('videoProgress');
 
-      // Intento 1: play con audio inmediato (funciona en desktop)
-      video.muted = false;
-      video.play().catch(function () {
-        // Bloqueado — iniciar mudo (funciona en iOS y Android)
-        video.muted = true;
-        video.play().catch(function () {});
-      });
-
-      // Intento 2: a los 500ms, si sigue pausado, forzar mudo
-      setTimeout(function () {
-        if (video.paused) {
-          video.muted = true;
-          video.play().catch(function () {});
-        }
-      }, 500);
-
-      // Cualquier interacción mínima → activar audio
+      // El tap sobre el overlay (pantalla completa) es el gesto
+      // de confianza que iOS y Android aceptan para activar audio.
       function unlock() {
         overlay.classList.add('hidden');
         video.muted = false;
-        if (video.paused) video.play();
+        video.play().catch(function () {
+          video.muted = true;
+          video.play().catch(function () {});
+        });
+        overlay.removeEventListener('touchend', unlock);
+        overlay.removeEventListener('click',    unlock);
       }
-      ['touchstart', 'click', 'scroll'].forEach(function (evt) {
-        document.addEventListener(evt, unlock, { once: true, passive: true });
-      });
+
+      overlay.addEventListener('touchend', unlock, { passive: true });
+      overlay.addEventListener('click',    unlock);
 
       // Barra de progreso acelerada
       (function tick() {
