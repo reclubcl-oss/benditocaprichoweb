@@ -74,6 +74,24 @@
     .fade-up-3 { animation-delay: 0.5s; }
     .fade-up-4 { animation-delay: 0.65s; }
 
+    /* ─── Barra superior ────────────────────────────────────── */
+    .topbar {
+      width: 100%;
+      background: rgba(45, 10, 80, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-rose);
+      position: relative;
+      z-index: 10;
+    }
+
     /* ─── Cabecera compacta ─────────────────────────────────── */
     .hero {
       padding: 2.5rem 2rem 1.5rem;
@@ -534,6 +552,9 @@
   <!-- ══════════════════════════════════════════
        HERO
   ══════════════════════════════════════════ -->
+  <!-- Barra superior -->
+  <div class="topbar">Bienvenidos emprendedores</div>
+
   <!-- Destellos decorativos (sparkles) -->
   <div class="sparkles" aria-hidden="true">
     <svg class="sparkle s1" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"/></svg>
@@ -544,7 +565,7 @@
   </div>
 
   <section class="hero">
-    <h1 class="fade-up fade-up-1" data-text="Bendito Capricho Store">Bendito Capricho Store</h1>
+    <h1 class="fade-up fade-up-1" data-text="Bendito Capricho Concept Store">Bendito Capricho Concept Store</h1>
   </section>
 
 
