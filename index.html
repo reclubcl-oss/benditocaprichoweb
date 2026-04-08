@@ -418,23 +418,10 @@
     <div class="video-wrapper">
       <div class="video-ratio">
 
-        <iframe
-          src="https://www.youtube.com/embed/PKkBfjEVO1Q?autoplay=1&mute=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&color=white&playsinline=1"
-          title="Bendito Capricho — Video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-
-        <!-- ALTERNATIVA — Video local HTML5:
-             Si prefieres usar un video propio en lugar del embed de YouTube:
-             1. Comenta o elimina el <iframe> de arriba.
-             2. Descomenta el bloque <video> de abajo y pon la ruta a tu archivo.
-
-        <video controls poster="poster.jpg">
+        <video controls playsinline preload="metadata">
           <source src="video.mp4" type="video/mp4" />
           Tu navegador no soporta la etiqueta de video.
         </video>
-        -->
 
       </div>
     </div>
