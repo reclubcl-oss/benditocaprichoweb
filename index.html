@@ -620,7 +620,11 @@
     <!-- EDITAR: para conectar con Mailchimp, ConvertKit u otro servicio,
          cambia action="#" por la URL de tu endpoint y añade los campos
          hidden que requiera tu proveedor. -->
-    <form class="waitlist-form" id="waitlistForm" novalidate>
+    <form class="waitlist-form" id="waitlistForm" action="https://formsubmit.co/benjamin.tapia.r1@gmail.com" method="POST" novalidate>
+      <input type="hidden" name="_subject"  value="Nueva suscripción — Bendito Capricho Concept Store" />
+      <input type="hidden" name="_captcha"  value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_next"     value="https://benditocaprichoweb.vercel.app/?ok=1" />
       <input
         type="email"
         id="emailInput"
@@ -687,45 +691,28 @@
       var form    = document.getElementById('waitlistForm');
       var confirm = document.getElementById('waitlistConfirm');
       var input   = document.getElementById('emailInput');
-      var btn     = form.querySelector('button[type="submit"]');
 
+      // Validación antes de enviar — el submit real lo hace el browser
       form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
         var email = input.value.trim();
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         if (!emailRegex.test(email)) {
+          e.preventDefault();
           input.focus();
           input.setCustomValidity('Por favor, introduce un correo válido.');
           input.reportValidity();
           return;
         }
-
         input.setCustomValidity('');
-        btn.disabled    = true;
-        btn.textContent = 'Enviando…';
-
-        fetch('https://formsubmit.co/ajax/benjamin.tapia.r1@gmail.com', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            email:    email,
-            _subject: 'Nueva suscripción — Bendito Capricho Concept Store',
-            _captcha: 'false'
-          })
-        })
-        .then(function (res) { return res.json(); })
-        .then(function () { showConfirmation(); })
-        .catch(function () {
-          // Si falla la red igual mostramos confirmación
-          showConfirmation();
-        });
+        // Deja que el form se envíe normalmente a Formsubmit
       });
 
-      function showConfirmation() {
+      // Al volver con ?ok=1, mostramos confirmación
+      if (window.location.search.indexOf('ok=1') !== -1) {
         form.style.display = 'none';
         confirm.classList.add('visible');
+        // Limpia el parámetro de la URL sin recargar
+        history.replaceState(null, '', window.location.pathname);
       }
     })();
   </script>
