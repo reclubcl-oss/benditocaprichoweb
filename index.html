@@ -62,41 +62,20 @@
     .fade-up-3 { animation-delay: 0.5s; }
     .fade-up-4 { animation-delay: 0.65s; }
 
-    /* ─── Sección Hero ──────────────────────────────────────── */
+    /* ─── Cabecera compacta ─────────────────────────────────── */
     .hero {
-      min-height: 100vh;
+      padding: 2.5rem 2rem 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 4rem 2rem;
       position: relative;
       background:
-        radial-gradient(ellipse 55% 45% at 50% 38%, rgba(192, 38, 211, 0.22) 0%, transparent 65%),
-        radial-gradient(ellipse 35% 30% at 20% 80%, rgba(232, 121, 249, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 200% at 50% 0%, rgba(192, 38, 211, 0.18) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.06)' stroke-width='0.8'/%3E%3C/svg%3E"),
         var(--bg-dark);
+      background-size: auto, 40px 40px, auto;
       overflow: hidden;
-    }
-
-    /* Patrón de diamantes (inspirado en diseño Canva) */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.06)' stroke-width='0.8'/%3E%3C/svg%3E");
-      background-size: 40px 40px;
-      pointer-events: none;
-    }
-
-    /* Brillo central sutil sobre el patrón */
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(7,5,15,0) 40%, rgba(7,5,15,0.7) 100%);
-      pointer-events: none;
     }
 
     .hero-ornament {
@@ -112,9 +91,9 @@
     .hero h1 {
       font-family: var(--font-title);
       font-weight: 700;
-      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-size: clamp(2rem, 6vw, 4rem);
       line-height: 1;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
       color: var(--text-light);
       position: relative;
     }
@@ -155,7 +134,7 @@
         url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.05)' stroke-width='0.8'/%3E%3C/svg%3E"),
         var(--bg-section);
       background-size: 40px 40px, auto;
-      padding: 6rem 2rem;
+      padding: 1.5rem 2rem 4rem;
     }
 
     .section-label {
@@ -428,15 +407,7 @@
        HERO
   ══════════════════════════════════════════ -->
   <section class="hero">
-    <!-- EDITAR: ornamento o categoría de marca encima del título -->
-    <p class="hero-ornament fade-up fade-up-1">Una experiencia</p>
-
-    <h1 class="fade-up fade-up-2" data-text="Bendito Capricho Store">Bendito Capricho Store</h1>
-
-    <!-- EDITAR: subtítulo de marca — cambia o elimina este párrafo -->
-    <p class="hero-subtitle fade-up fade-up-3">Próximamente</p>
-
-    <div class="hero-divider fade-up fade-up-4"></div>
+    <h1 class="fade-up fade-up-1" data-text="Bendito Capricho Store">Bendito Capricho Store</h1>
   </section>
 
 
@@ -444,9 +415,6 @@
        VIDEO
   ══════════════════════════════════════════ -->
   <section class="section-video">
-    <!-- EDITAR: etiqueta de sección -->
-    <span class="section-label">Descúbrenos</span>
-
     <div class="video-wrapper">
       <div class="video-ratio">
 
