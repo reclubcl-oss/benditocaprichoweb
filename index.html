@@ -572,6 +572,7 @@
       // de confianza que iOS y Android aceptan para activar audio.
       function unlock() {
         overlay.classList.add('hidden');
+        video.currentTime = 0;
         video.muted = false;
         video.play().catch(function () {
           video.muted = true;
