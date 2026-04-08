@@ -614,19 +614,13 @@
        WAITLIST / CONTACTO
   ══════════════════════════════════════════ -->
   <section class="section-waitlist">
-    <!-- EDITAR: título de la sección waitlist -->
     <h2>Sé el primero en saberlo</h2>
-
-    <!-- EDITAR: descripción breve -->
-    <p>
-      Algo especial está por llegar. Déjanos tu correo y te avisamos
-      antes que nadie.
-    </p>
+    <p>Sé parte de nuestra comunidad y recibe información.</p>
 
     <!-- EDITAR: para conectar con Mailchimp, ConvertKit u otro servicio,
          cambia action="#" por la URL de tu endpoint y añade los campos
          hidden que requiera tu proveedor. -->
-    <form class="waitlist-form" id="waitlistForm" action="#" novalidate>
+    <form class="waitlist-form" id="waitlistForm" novalidate>
       <input
         type="email"
         id="emailInput"
@@ -693,6 +687,7 @@
       var form    = document.getElementById('waitlistForm');
       var confirm = document.getElementById('waitlistConfirm');
       var input   = document.getElementById('emailInput');
+      var btn     = form.querySelector('button[type="submit"]');
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -708,22 +703,28 @@
         }
 
         input.setCustomValidity('');
+        btn.disabled    = true;
+        btn.textContent = 'Enviando…';
 
-        // EDITAR: aquí puedes hacer un fetch() a tu endpoint antes de
-        // ocultar el formulario. Ejemplo:
-        //
-        // fetch('/api/subscribe', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email: email })
-        // }).then(function() { showConfirmation(); });
-        //
-        // Por ahora solo mostramos la confirmación directamente:
-        showConfirmation();
+        fetch('https://formsubmit.co/ajax/benjamin.tapia.r1@gmail.com', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            email:    email,
+            _subject: 'Nueva suscripción — Bendito Capricho Concept Store',
+            _captcha: 'false'
+          })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function () { showConfirmation(); })
+        .catch(function () {
+          // Si falla la red igual mostramos confirmación
+          showConfirmation();
+        });
       });
 
       function showConfirmation() {
-        form.style.display    = 'none';
+        form.style.display = 'none';
         confirm.classList.add('visible');
       }
     })();
