@@ -346,6 +346,70 @@
       color: var(--accent-2);
     }
 
+    /* ─── Overlay "toca para sonido" ────────────────────────── */
+    #soundOverlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: opacity 0.4s ease;
+    }
+
+    #soundOverlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes pulse-ring {
+      0%   { transform: scale(1);    opacity: 0.9; }
+      70%  { transform: scale(1.35); opacity: 0;   }
+      100% { transform: scale(1.35); opacity: 0;   }
+    }
+
+    .sound-pulse {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(192, 38, 211, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .sound-pulse::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(192, 38, 211, 0.5);
+      animation: pulse-ring 1.8s ease-out infinite;
+    }
+
+    .sound-pulse svg {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #soundOverlay span {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      background: rgba(7,5,15,0.55);
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+    }
+
     /* ─── Botón WhatsApp ─────────────────────────────────────── */
     .section-whatsapp {
       padding: 4rem 2rem;
@@ -418,10 +482,22 @@
     <div class="video-wrapper">
       <div class="video-ratio">
 
-        <video controls playsinline preload="metadata">
+        <video id="mainVideo" autoplay muted playsinline preload="auto">
           <source src="video.mp4" type="video/mp4" />
           Tu navegador no soporta la etiqueta de video.
         </video>
+
+        <!-- Overlay "toca para activar sonido" -->
+        <div id="soundOverlay">
+          <div class="sound-pulse">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </div>
+          <span>Toca para activar el sonido</span>
+        </div>
 
       </div>
     </div>
@@ -500,8 +576,26 @@
   </footer>
 
 
-  <!-- ─── JavaScript: lógica del formulario ─────────────────── -->
+  <!-- ─── JavaScript ──────────────────────────────────────────── -->
   <script>
+    // ── Activar audio al primer toque/click en cualquier parte ──
+    (function () {
+      var video   = document.getElementById('mainVideo');
+      var overlay = document.getElementById('soundOverlay');
+
+      function activateSound() {
+        video.muted = false;
+        video.play();
+        overlay.classList.add('hidden');
+        document.removeEventListener('click',     activateSound);
+        document.removeEventListener('touchstart', activateSound);
+      }
+
+      document.addEventListener('click',     activateSound);
+      document.addEventListener('touchstart', activateSound, { passive: true });
+    })();
+
+    // ── Lógica del formulario waitlist ───────────────────────────
     (function () {
       var form    = document.getElementById('waitlistForm');
       var confirm = document.getElementById('waitlistConfirm');
