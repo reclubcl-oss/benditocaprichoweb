@@ -15,13 +15,14 @@
   <style>
     /* ─── Variables ─────────────────────────────────────────── */
     :root {
-      --bg-dark:     #2D1B69;
-      --bg-deeper:   #1a0f3d;
-      --bg-section:  #211453;
-      --accent-1:    #7C3AED;
-      --accent-2:    #A855F7;
+      --bg-dark:     #07050F;
+      --bg-deeper:   #030208;
+      --bg-section:  #0C0A18;
+      --accent-1:    #C026D3;
+      --accent-2:    #E879F9;
+      --accent-rose: #F0ABFC;
       --text-light:  #F8F5FF;
-      --text-muted:  rgba(248, 245, 255, 0.55);
+      --text-muted:  rgba(248, 245, 255, 0.5);
       --font-title:  'Cormorant Garamond', Georgia, serif;
       --font-body:   'DM Sans', system-ui, sans-serif;
     }
@@ -72,20 +73,30 @@
       padding: 4rem 2rem;
       position: relative;
       background:
-        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(124, 58, 237, 0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 55% 45% at 50% 38%, rgba(192, 38, 211, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 30% at 20% 80%, rgba(232, 121, 249, 0.08) 0%, transparent 60%),
         var(--bg-dark);
       overflow: hidden;
     }
 
-    /* Textura de grano sutil */
+    /* Patrón de diamantes (inspirado en diseño Canva) */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.06)' stroke-width='0.8'/%3E%3C/svg%3E");
+      background-size: 40px 40px;
       pointer-events: none;
-      opacity: 0.6;
+    }
+
+    /* Brillo central sutil sobre el patrón */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(7,5,15,0) 40%, rgba(7,5,15,0.7) 100%);
+      pointer-events: none;
     }
 
     .hero-ornament {
@@ -140,7 +151,10 @@
 
     /* ─── Sección Video ──────────────────────────────────────── */
     .section-video {
-      background: var(--bg-section);
+      background:
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.05)' stroke-width='0.8'/%3E%3C/svg%3E"),
+        var(--bg-section);
+      background-size: 40px 40px, auto;
       padding: 6rem 2rem;
     }
 
@@ -160,7 +174,7 @@
       margin: 0 auto;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 0 60px rgba(124, 58, 237, 0.2);
+      box-shadow: 0 0 60px rgba(192, 38, 211, 0.25);
     }
 
     .video-ratio {
@@ -183,8 +197,10 @@
       padding: 7rem 2rem;
       text-align: center;
       background:
-        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(168, 85, 247, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 45% at 50% 100%, rgba(192, 38, 211, 0.14) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='rgba(232,121,249,0.05)' stroke-width='0.8'/%3E%3C/svg%3E"),
         var(--bg-dark);
+      background-size: auto, 40px 40px, auto;
     }
 
     .section-waitlist h2 {
