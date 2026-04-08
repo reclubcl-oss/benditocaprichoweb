@@ -561,59 +561,33 @@
 
   <!-- ─── JavaScript ──────────────────────────────────────────── -->
   <script>
-    // ── Video: autoplay + audio al tocar + iOS & Android ────────
     (function () {
       var video   = document.getElementById('mainVideo');
       var overlay = document.getElementById('soundOverlay');
-      var bar     = document.getElementById('videoProgress');
       var fill    = document.getElementById('videoProgressFill');
-      var soundOn = false;
+      var bar     = document.getElementById('videoProgress');
 
-      // ── 1. Arrancar el video mudo en cuanto sea posible ──────
-      function startMuted() {
-        if (video.paused) {
-          video.muted = true;
-          video.play().catch(function () {});
-        }
-      }
+      // El video espera parado — no hacemos autoplay
+      // así el ÚNICO play() ocurre dentro del gesto del usuario,
+      // lo que garantiza audio en iOS y Android Chrome.
+      video.pause();
 
-      // Intentar inmediatamente
-      startMuted();
-
-      // Si el DOM no estaba listo, reintentar al cargar metadata
-      video.addEventListener('loadedmetadata', startMuted);
-
-      // Fallback extra a 800ms (Android WebView a veces necesita esto)
-      setTimeout(startMuted, 800);
-
-      // ── 2. Primer toque en CUALQUIER PARTE → audio ON ───────
-      //    iOS Safari y Android Chrome ambos aceptan click como
-      //    gesto válido para desbloquear audio.
-      function activateSound() {
-        if (soundOn) return;
-        soundOn = true;
-        overlay.classList.add('hidden');
+      // Primer toque en CUALQUIER PARTE de la pantalla → play con audio
+      document.addEventListener('click', function unlock() {
         video.muted = false;
-        video.play().catch(function () {
-          // Fallback: si el browser bloquea con audio, sigue mudo
-          video.muted = true;
-          video.play().catch(function () {});
-        });
-        document.removeEventListener('click', activateSound);
-      }
+        video.play();
+        overlay.classList.add('hidden');
+        document.removeEventListener('click', unlock);
+      }, { once: true });
 
-      document.addEventListener('click', activateSound);
-
-      // ── 3. Barra de progreso acelerada ───────────────────────
-      function tick() {
+      // Barra de progreso acelerada
+      (function tick() {
         if (video.duration) {
-          var real = video.currentTime / video.duration;
-          var pct  = real > 0.97 ? 100 : Math.min(95, real * 2.8 * 100);
-          fill.style.width = pct + '%';
+          var r = video.currentTime / video.duration;
+          fill.style.width = (r > 0.97 ? 100 : Math.min(95, r * 2.8 * 100)) + '%';
         }
         requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+      })();
 
       // Tap en la barra → seek
       bar.addEventListener('click', function (e) {
