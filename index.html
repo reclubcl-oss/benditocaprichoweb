@@ -167,33 +167,25 @@
     .video-progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #9B10C0, #C026D3, #E879F9, #fff);
-      background-size: 300% 100%;
-      animation: shimmer 1s linear infinite;
+      background: linear-gradient(90deg, #6B10A0, #9B10C0, #C026D3);
       position: relative;
       transition: width 0.15s ease-out;
     }
 
-    @keyframes shimmer {
-      0%   { background-position: 300% center; }
-      100% { background-position: -300% center; }
-    }
-
     .video-progress-dot {
       position: absolute;
-      right: -9px;
+      right: -7px;
       top: 50%;
       transform: translateY(-50%);
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 0 12px 4px rgba(232,121,249,1);
+      background: #7C3AED;
       transition: transform 0.15s;
     }
 
     .video-progress:hover .video-progress-dot {
-      transform: translateY(-50%) scale(1.35);
+      transform: translateY(-50%) scale(1.25);
     }
 
     .video-ratio {
