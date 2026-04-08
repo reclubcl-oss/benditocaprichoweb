@@ -155,6 +155,47 @@
       box-shadow: 0 0 60px rgba(192, 38, 211, 0.25);
     }
 
+    /* ─── Barra de progreso personalizada ───────────────────── */
+    .video-progress {
+      width: 100%;
+      height: 5px;
+      background: rgba(255,255,255,0.15);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .video-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #C026D3, #E879F9, #fff);
+      background-size: 200% 100%;
+      animation: shimmer 2s linear infinite;
+      position: relative;
+      transition: width 0.1s linear;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+
+    .video-progress-dot {
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(232,121,249,1);
+      transition: transform 0.15s;
+    }
+
+    .video-progress:hover .video-progress-dot {
+      transform: translateY(-50%) scale(1.4);
+    }
+
     .video-ratio {
       position: relative;
       padding-bottom: 56.25%; /* 16:9 */
@@ -593,6 +634,14 @@
         </div>
 
       </div>
+
+      <!-- Barra de progreso (fuera del ratio para que sea visible) -->
+      <div class="video-progress" id="videoProgress">
+        <div class="video-progress-fill" id="videoProgressFill">
+          <div class="video-progress-dot"></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -669,6 +718,31 @@
 
   <!-- ─── JavaScript ──────────────────────────────────────────── -->
   <script>
+    // ── Barra de progreso del video ──────────────────────────────
+    (function () {
+      var video    = document.getElementById('mainVideo');
+      var bar      = document.getElementById('videoProgress');
+      var fill     = document.getElementById('videoProgressFill');
+
+      // Actualiza la barra cada frame
+      function tick() {
+        if (video.duration) {
+          var pct = (video.currentTime / video.duration) * 100;
+          fill.style.width = pct + '%';
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      // Click en la barra → seek
+      bar.addEventListener('click', function (e) {
+        if (!video.duration) return;
+        var rect = bar.getBoundingClientRect();
+        var pos  = (e.clientX - rect.left) / rect.width;
+        video.currentTime = pos * video.duration;
+      });
+    })();
+
     // ── Activar audio al primer toque/click en cualquier parte ──
     (function () {
       var video   = document.getElementById('mainVideo');
