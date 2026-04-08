@@ -48,10 +48,9 @@
         radial-gradient(ellipse 45% 35% at 95% 95%, rgba(255,140,160,0.45) 0%, transparent 55%),
         radial-gradient(ellipse 70% 55% at 35% 45%, rgba(45, 10, 80, 0.65) 0%, transparent 70%),
         linear-gradient(160deg, #8B4DC8 0%, #6B30A8 40%, #7840B5 70%, #8050C0 100%);
-      background-size: 256px 256px, auto, auto, auto, auto;
-      background-attachment: scroll; /* fixed rompe en iOS Safari */
-      background-repeat: no-repeat;
-      background-size: 256px 256px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+      background-size: 256px 256px, cover, cover, cover, cover;
+      background-attachment: scroll;
       min-height: 100dvh;
       color: var(--text-light);
       font-family: var(--font-body);
