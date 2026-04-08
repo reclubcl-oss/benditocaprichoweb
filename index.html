@@ -585,6 +585,12 @@
       overlay.addEventListener('touchend', unlock, { passive: true });
       overlay.addEventListener('click',    unlock);
 
+      // Botón WhatsApp aparece a los 45 segundos
+      setTimeout(function () {
+        var wa = document.querySelector('.section-whatsapp');
+        if (wa) wa.classList.add('visible');
+      }, 45000);
+
       // Barra de progreso acelerada
       (function tick() {
         if (video.duration) {
