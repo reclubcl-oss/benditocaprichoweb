@@ -572,13 +572,18 @@
       // lo que garantiza audio en iOS y Android Chrome.
       video.pause();
 
-      // Primer toque en CUALQUIER PARTE de la pantalla → play con audio
-      document.addEventListener('click', function unlock() {
+      // Cualquier interacción → play con audio (toque, scroll, click)
+      function unlock() {
         video.muted = false;
         video.play();
         overlay.classList.add('hidden');
-        document.removeEventListener('click', unlock);
-      }, { once: true });
+        document.removeEventListener('touchstart', unlock);
+        document.removeEventListener('scroll',     unlock);
+        document.removeEventListener('click',      unlock);
+      }
+      document.addEventListener('touchstart', unlock, { once: true, passive: true });
+      document.addEventListener('scroll',     unlock, { once: true, passive: true });
+      document.addEventListener('click',      unlock, { once: true });
 
       // Barra de progreso acelerada
       (function tick() {
