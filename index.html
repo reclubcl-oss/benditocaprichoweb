@@ -377,18 +377,46 @@
     @keyframes logo-glow {
       0%, 100% {
         filter: drop-shadow(0 0 8px rgba(192,38,211,0.4)) drop-shadow(0 0 20px rgba(192,38,211,0.2));
-        transform: scale(1);
       }
       50% {
         filter: drop-shadow(0 0 18px rgba(232,121,249,0.8)) drop-shadow(0 0 40px rgba(192,38,211,0.5));
-        transform: scale(1.03);
       }
+    }
+
+    @keyframes circle-draw {
+      0%   { stroke-dashoffset: 880; opacity: 0.4; }
+      60%  { stroke-dashoffset: 0;   opacity: 1;   }
+      100% { stroke-dashoffset: -880; opacity: 0.4; }
     }
 
     .logo-section {
       text-align: center;
       padding: 0.5rem 2rem 0;
       margin-top: -1rem;
+      position: relative;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo-circle-svg {
+      position: absolute;
+      inset: -14px;
+      width: calc(100% + 28px);
+      height: calc(100% + 28px);
+      pointer-events: none;
+    }
+
+    .logo-circle-svg circle {
+      fill: none;
+      stroke: url(#circleGrad);
+      stroke-width: 2.5;
+      stroke-dasharray: 880;
+      stroke-dashoffset: 880;
+      stroke-linecap: round;
+      animation: circle-draw 4s ease-in-out infinite;
     }
 
     .logo-section img {
@@ -396,6 +424,11 @@
       mix-blend-mode: screen;
       opacity: 0.98;
       animation: logo-glow 3s ease-in-out infinite;
+      display: block;
+    }
+
+    .section-whatsapp {
+      padding: 1.5rem 2rem 4rem;
     }
 
     .btn-whatsapp {
@@ -580,7 +613,19 @@
 
   <!-- Logo -->
   <div class="logo-section">
-    <img src="logo.png" alt="Bendito Capricho Concept Store" />
+    <div class="logo-container">
+      <svg class="logo-circle-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="circleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#A855F7"/>
+            <stop offset="50%"  stop-color="#E879F9"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+        </defs>
+        <circle cx="150" cy="150" r="140"/>
+      </svg>
+      <img src="logo.png" alt="Bendito Capricho Concept Store" />
+    </div>
   </div>
 
   <!-- ══════════════════════════════════════════
